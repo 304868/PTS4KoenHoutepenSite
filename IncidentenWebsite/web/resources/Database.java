@@ -3,6 +3,9 @@
  *
  * @author Indra
  */
+
+package resources;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.Date;
@@ -38,5 +41,25 @@ public class Database {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+    }
+
+    public Incident haalCoordinatenOp() throws SQLException {
+
+        Incident incident = null;
+
+            Statement incidentOphaal = conn.createStatement();
+            ResultSet ongeluk = incidentOphaal.executeQuery("SELECT * FROM coordinaten;");
+
+            while (ongeluk.next()) {
+                double lon = ongeluk.getDouble("Longitude");
+                double lat = ongeluk.getDouble("Latitude");
+                String naam = ongeluk.getString("naam");
+                String beschrijving = ongeluk.getString("Beschrijving");
+
+                incident = new Incident(lat, lon, naam, beschrijving);
+
+            }
+
+        return incident;
     }
 }

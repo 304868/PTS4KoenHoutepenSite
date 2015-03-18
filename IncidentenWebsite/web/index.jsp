@@ -4,7 +4,8 @@
     Author     : rich
 --%>
 
-<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.SQLException, resources.* " %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,25 +16,33 @@
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <%
             Database db;
-            double latitude;
-            double longitude;
+            Incident incident = null;
 
             db = new Database();
-            
+
             try {
-            db.initConnection();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+                db.initConnection();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+            try {
+                incident = db.haalCoordinatenOp();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            } finally {
+                db.closeConnection();
+            }
+
 
         %>
         <script>
             var map;
-            
+
             function initialize() {
                 var mapOptions = {
                     zoom: 8,
-                    center: new google.maps.LatLng(<%=latitude%>, <%=longitude%>)
+                    center: new google.maps.LatLng(<%=incident.getLatitude()%>, <%=incident.getLongitude()%>)
                 };
                 map = new google.maps.Map(document.getElementById('map-canvas'),
                         mapOptions);
