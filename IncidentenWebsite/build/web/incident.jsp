@@ -1,10 +1,8 @@
 <%-- 
     Document   : index
     Created on : Mar 11, 2015, 1:35:03 PM
-    Author     : rich
+    Author     : richard en nadiv
 --%>
-
-
 
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*" %>
