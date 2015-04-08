@@ -18,37 +18,42 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <script
-        src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
         <sql:setDataSource var="source" driver="com.mysql.jdbc.Driver"
-                           url="jdbc:mysql://localhost/coordinatentestdb"
-                           user="root"  password=""/>
+                           url="jdbc:mysql://145.144.241.41:3306/mydb"
+                           user="cims"  password="cims"/>
 
         <sql:query dataSource="${source}" var="data">
-            SELECT * from coordinaten;
+            SELECT * FROM calamity WHERE idcalamity = 5;
         </sql:query>
 
         <c:forEach var="coords" begin="0" items="${data.rows}">
 
 
-            <script>
+           <script>
                 var map;
 
                 function initialize() {
                     var mapOptions = {
                         zoom: 8,
-                        center: new google.maps.LatLng(${coords.latitude}, ${coords.longitude})
+                        center: new google.maps.LatLng(${coords.goe_lat}, ${coords.goe_long})
+                        
                     };
                     map = new google.maps.Map(document.getElementById('map-canvas'),
                             mapOptions);
+                    var marker = new google.maps.Marker({position: new google.maps.LatLng(${coords.goe_lat}, ${coords.goe_long}),
+                        map: map});
                 }
 
                 google.maps.event.addDomListener(window, 'load', initialize);
             </script>
+            
+            
         </head>
         <body >
-            <h1> ${coords.naam}</h1>
-            <a> ${coords.beschrijving}   </a> </c:forEach>
+            <h1> ${coords.name}</h1>
+            <a> ${coords.description}   </a> </c:forEach>
         <div id = "map-canvas" style = "height:300px; width:500px" > </div>
     </body>
 </html>
